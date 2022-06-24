@@ -19,16 +19,17 @@ class MarvelService {
    getCharacter = async (id)=>{ 
       // return this.getResourse(`${this._apiBase}characters/${id}?${this._apiKey}`);
       let data = await this.getResourse(`${this._apiBase}characters/${id}?${this._apiKey}`);
-      return this.__transformCharacter(data)
+      return this.__transformCharacter(data.data.results[0])
    }
    
    __transformCharacter = (res)=>{ 
    return { 
-      name: res.data.results[0].name, 
-      description: res.data.results[0].description,
-      thumbnail: `${res.data.results[0].thumbnail.path}.${res.data.results[0].thumbnail.extension}`,
-      homepage: res.data.results[0].urls[0].url,
-      wikipage: res.data.results[0].urls[1].url
+      //opt
+      name: res.name, 
+      description: res.description,
+      thumbnail: `${res.thumbnail.path}.${res.thumbnail.extension}`,
+      homepage: res.urls[0].url,
+      wikipage: res.urls[1].url
    }
    }
 
