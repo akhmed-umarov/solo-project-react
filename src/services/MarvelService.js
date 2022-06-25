@@ -13,23 +13,30 @@ class MarvelService {
       // let data = await res.json()
       // return data
    }
-   getAllCharacters =()=>{ 
-      return this.getResourse(`https://gateway.marvel.com:443/v1/public/characters?limit=9&offset=260&apikey=27c482231617c13cab6f9222965acb80`);
+   getAllCharacters = async ()=>{ 
+      let res = await this.getResourse(`https://gateway.marvel.com:443/v1/public/characters?limit=9&offset=260&apikey=27c482231617c13cab6f9222965acb80`);
+      // return res.data.results.map((el)=> this.__transformCharacter(el));
+      return res.data.results.map(this.__transformCharacter);     
+      //можно так или нет
    }
+
+   // https://gateway.marvel.com:443/v1/public/characters/1011186?apikey=27c482231617c13cab6f9222965acb80, status: 429
+
+
    getCharacter = async (id)=>{ 
       // return this.getResourse(`${this._apiBase}characters/${id}?${this._apiKey}`);
       let data = await this.getResourse(`${this._apiBase}characters/${id}?${this._apiKey}`);
       return this.__transformCharacter(data.data.results[0])
    }
    
-   __transformCharacter = (res)=>{ 
+   __transformCharacter = (char)=>{ 
    return { 
       //opt
-      name: res.name, 
-      description: res.description,
-      thumbnail: `${res.thumbnail.path}.${res.thumbnail.extension}`,
-      homepage: res.urls[0].url,
-      wikipage: res.urls[1].url
+      name: char.name, 
+      description: char.description,
+      thumbnail: `${char.thumbnail.path}.${char.thumbnail.extension}`,
+      homepage: char.urls[0].url,
+      wikipage: char.urls[1].url
    }
    }
 
