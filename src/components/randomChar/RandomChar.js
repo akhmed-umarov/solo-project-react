@@ -5,7 +5,6 @@ import { Component } from 'react';
 import MarvelService from '../../services/MarvelService';
 import SpiinerLoad from '../spinnerLoad/SpinnerLoad';
 import ErrorTag from '../errorTag/ErrorTag';
-import { toHaveStyle } from '@testing-library/jest-dom/dist/matchers';
 
 
 class RandomChar extends Component {   
@@ -25,7 +24,7 @@ class RandomChar extends Component {
         this.setState({error: true , load: false})
 
         ///От себя
-        setTimeout(this.updateChar , 3000); 
+        // setTimeout(this.updateChar , 3000); 
     }
 
     updateChar = () =>{  
@@ -78,7 +77,7 @@ const View = ({char}) => {
 
     return (
         <div className="randomchar__block">
-                <img style={thumbnail == "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg" ? {objectFit: 'contain'} : null}
+                <img style={thumbnail === "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg" ? {objectFit: 'contain'} : null}
                 src={thumbnail} alt="Random character" className="randomchar__img"/>
                     <div className="randomchar__info">
                         <p className="randomchar__name">{name}</p>

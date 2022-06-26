@@ -3,7 +3,9 @@ import uw from '../../resources/img/UW.png';
 import xMen from '../../resources/img/x-men.png';
 
 
-const ComicsList = () => {
+
+const ComicsList = ()=> { 
+
     return (
         <div className="comics__list">
             <ul className="comics__grid">
@@ -69,6 +71,7 @@ const ComicsList = () => {
             </button>
         </div>
     )
+    
 }
 
 export default ComicsList;

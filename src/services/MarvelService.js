@@ -15,9 +15,13 @@ class MarvelService {
    }
    getAllCharacters = async ()=>{ 
       let res = await this.getResourse(`https://gateway.marvel.com:443/v1/public/characters?limit=9&offset=260&apikey=27c482231617c13cab6f9222965acb80`);
-      // return res.data.results.map((el)=> this.__transformCharacter(el));
-      return res.data.results.map(this.__transformCharacter);     
-      //можно так или нет
+      
+
+
+      // return res.data.results.map(this.__transformCharacter);  
+      
+      
+      return res.data.results;
    }
 
    // https://gateway.marvel.com:443/v1/public/characters/1011186?apikey=27c482231617c13cab6f9222965acb80, status: 429
