@@ -2,7 +2,8 @@
 class MarvelService { 
    //нельзя менять если начинается с лодыша (нижнее подчеркивание) , формально для других программис
    _apiBase = `https://gateway.marvel.com:443/v1/public/`;
-   _apiKey = `apikey=27c482231617c13cab6f9222965acb80`
+   _apiKey = `apikey=27c482231617c13cab6f9222965acb80`;
+   _offset = 260; 
 
    getResourse = async (url) =>{ 
       let res = await fetch(url)
@@ -13,8 +14,8 @@ class MarvelService {
       // let data = await res.json()
       // return data
    }
-   getAllCharacters = async ()=>{ 
-      let res = await this.getResourse(`https://gateway.marvel.com:443/v1/public/characters?limit=9&offset=260&apikey=27c482231617c13cab6f9222965acb80`);
+   getAllCharacters = async (offset = 260)=>{ 
+      let res = await this.getResourse(`https://gateway.marvel.com:443/v1/public/characters?limit=9&offset=${offset}&apikey=27c482231617c13cab6f9222965acb80`);
       
 
 
