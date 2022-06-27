@@ -29,20 +29,32 @@ class MarvelService {
 
    getCharacter = async (id)=>{ 
       // return this.getResourse(`${this._apiBase}characters/${id}?${this._apiKey}`);
-      let data = await this.getResourse(`${this._apiBase}characters/${id}?${this._apiKey}`);
-      return this.__transformCharacter(data.data.results[0])
+      let res = await this.getResourse(`${this._apiBase}characters/${id}?${this._apiKey}`);
+      return this.__transformCharacter(res.data.results[0])
    }
+
+   // getCharacter = async (id)=>{ 
+   //    // return this.getResourse(`${this._apiBase}characters/${id}?${this._apiKey}`);
+   //    let res = await this.getResourse(`${this._apiBase}characters/${id}?${this._apiKey}`);
+   //    return this.__transformCharacter(res.data.results[0])
+   // }
    
+   
+
+
+
    __transformCharacter = (char)=>{ 
-   return { 
-      //opt
-      name: char.name, 
-      description: char.description,
-      thumbnail: `${char.thumbnail.path}.${char.thumbnail.extension}`,
-      homepage: char.urls[0].url,
-      wikipage: char.urls[1].url
-   }
-   }
+      return { 
+         name: char.name, 
+         description: char.description,
+         thumbnail: `${char.thumbnail.path}.${char.thumbnail.extension}`,
+         homepage: char.urls[0].url,
+         wikipage: char.urls[1].url,
+         comicsData: char.comics
+      }
+      }
+
+
 
 }
 
