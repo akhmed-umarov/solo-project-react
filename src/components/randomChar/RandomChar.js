@@ -3,7 +3,7 @@ import './randomChar.scss';
 import mjolnir from '../../resources/img/mjolnir.png';
 import { Component } from 'react';
 import MarvelService from '../../services/MarvelService';
-import SpiinerLoad from '../spinnerLoad/SpinnerLoad';
+import SpinnerLoad from '../spinnerLoad/SpinnerLoad';
 import ErrorTag from '../errorTag/ErrorTag';
 
 
@@ -50,7 +50,7 @@ class RandomChar extends Component {
     render() { 
         
 const { char , load , error } = this.state;
-const LoadedPage = load ? <SpiinerLoad/> : null ; 
+const LoadedPage = load ? <SpinnerLoad/> : null ; 
 const ErrorPage = error ? <ErrorTag /> : null; 
 const charPage = !(error || load) ? <View char={char}/> : null ; 
     

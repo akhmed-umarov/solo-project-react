@@ -2,7 +2,7 @@ import './charList.scss';
 import { Component } from 'react/cjs/react.production.min';
 import MarvelService from '../../services/MarvelService';
 import ErrorTag from '../errorTag/ErrorTag';
-
+import SpinnerLoad from '../spinnerLoad/SpinnerLoad';
 
 
 class CharList extends Component {
@@ -20,10 +20,11 @@ class CharList extends Component {
     marvelService = new MarvelService(); 
 
     loadedAllChars = (newChars)=>{ 
-        this.setState(({ArrayChars , offset })=>({
+        this.setState(({ArrayChars , offset})=>({
             ArrayChars : [...ArrayChars , ...newChars], 
             load: false , 
-            offset: offset + 9
+            offset: offset + 9,
+            loadedAllChars: false
         }))
     }
 
@@ -45,7 +46,7 @@ class CharList extends Component {
 
 
     onStartCharsLoading = () =>{ 
-        this.setState({load: true})
+        this.setState({loadNewChar: true})
     }
 
     onError = () => { 
@@ -61,22 +62,29 @@ class CharList extends Component {
         const { onCharSelected } = this.props; 
         const {ArrayChars , offset , loadNewChar , error , load} = this.state;
 
-        // const ErorTag =  (error || !load || !ArrayChars ) ? <ErrorTag/> : null; 
-        // const ContentChars = !( error || load || !ArrayChars) ? 
-        //лень пока что делатьзагрузки и ошибки
+        const erorTag =  (error || !load || !ArrayChars ) ? <ErrorTag/> : null; 
+
+        const contentChars = !( error || load || !ArrayChars) ? <Views ArrayChars = {ArrayChars} offset = {offset} onRequstListChar = {this.onRequsetListChar} onCharSelected = {onCharSelected}/> : null;
+
+        const loading = !(error || !load || ArrayChars.length !== 0) ? <SpinnerLoad/> : null; 
 
 
-        let li = Array.from(ArrayChars).map(({id , ...charDat})=> {
-            return (
-            <CharItem key={id} {...charDat} onCharSelected = {()=>{onCharSelected(id)}}/>
-            )
-        })
+
+
+
+        // let li = Array.from(ArrayChars).map(({id , ...charDat})=> {
+        //     return (
+        //     <CharItem key={id} {...charDat} onCharSelected = {()=>{onCharSelected(id)}}/>
+        //     )
+        // })
 
         return (
         <div className="char__list">
-            <ul className="char__grid">
+            {/* <ul className="char__grid">
                 {li}
-            </ul>
+            </ul> */}
+            {loading}
+            {contentChars}
             <button className="button button__main button__long" onClick={()=> (this.onRequstListChar(offset))}>
                 <div className="inner">load more</div>
             </button>
@@ -87,9 +95,19 @@ class CharList extends Component {
 
 export default CharList;
 
-const Views = () => { 
+const Views = ({ArrayChars , offset  , onRequstListChar , onCharSelected}) => { 
+    
+    let li = Array.from(ArrayChars).map(({id , ...charDat})=> {
+        return (
+        <CharItem key={id} {...charDat} onCharSelected = {()=>{onCharSelected(id)}}/>
+        )
+    })
     return ( 
-        `asd`
+        <>
+            <ul className="char__grid">
+                {li}
+            </ul>
+        </>
     )
 }
 

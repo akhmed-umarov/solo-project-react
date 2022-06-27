@@ -1,7 +1,7 @@
 import { Component } from 'react';
 
 import MarvelService from '../../services/MarvelService';
-import SpiinerLoad from '../spinnerLoad/SpinnerLoad';
+import SpinnerLoad from '../spinnerLoad/SpinnerLoad';
 import ErrorTag from '../errorTag/ErrorTag';
 import Skeleton from '../skeleton/Skeleton';
 import './charInfo.scss';
@@ -73,7 +73,7 @@ class CharInfo extends Component {
         const {char , load , error} = this.state;
 
         const SkeletPage = char || load || error ?  null : <Skeleton/>; 
-        const LoadedPage = load ? <SpiinerLoad/> : null ; 
+        const LoadedPage = load ? <SpinnerLoad/> : null ; 
         const ErrorPage = error ? <ErrorTag /> : null; 
         const charPage = !(error || load || !char) ? <View char={char}/> : null ; 
 
