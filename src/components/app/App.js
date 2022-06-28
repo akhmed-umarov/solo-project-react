@@ -8,6 +8,9 @@ import { Component } from "react";
 
 
 
+import ReactTestChildren from "../reactTestChilden/ReactTestChildren";
+
+
 class App extends Component {
     state = { 
         selectedChar: null
@@ -24,6 +27,19 @@ class App extends Component {
     const {selectedChar} = this.state
     return (
         <div className="app">
+
+
+            <ReactTestChildren left = {<div><p>Kak tvoi dela</p></div>}
+                               right= {<div><p>Normal`no tvoi kak</p></div>}> 
+                               <div>
+                                <p>Kak tvoi dela</p>
+                               </div>
+                                <div>
+                                <p>Normalno</p>
+                               </div>
+            </ReactTestChildren>
+
+
             <AppHeader/>
             <main>
                 <ErrorBoundaries>
