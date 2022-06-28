@@ -6,15 +6,13 @@ import SpinnerLoad from '../spinnerLoad/SpinnerLoad';
 
 
 class CharList extends Component {
-    constructor(props){ 
-        super(props)
-        this.state = {
+
+        state = {
             ArrayChars: [],
             load: true, 
             error: false, 
             loadNewChar: false,
             offset: 260
-    }
     }
 
     marvelService = new MarvelService(); 
@@ -23,31 +21,27 @@ class CharList extends Component {
         this.setState(({ArrayChars , offset})=>({
             ArrayChars : [...ArrayChars , ...newChars], 
             load: false , 
-            offset: offset + 9,
-            loadedAllChars: false
+            loadNewChar: false, 
+            offset: offset + 9 
         }))
     }
 
-    updateArrayChars = ()=>{ 
-       this.onRequstListChar(this.state.offset)
-    }
+    // updateArrayChars = ()=>{ 
+    //    this.onRequstListChar(this.state.offset)
+    // }
 
     componentDidMount() { 
-    this.updateArrayChars();
+        this.onRequstListChar();
     }
     
     onRequstListChar = (offset) =>{ 
-        this.onStartCharsLoading()
+        this.onLoadingNewCharsArray();
         this.marvelService
             .getAllCharacters(offset)
                  .then(this.loadedAllChars)
                  .catch(this.onError)
     }
 
-
-    onStartCharsLoading = () =>{ 
-        this.setState({loadNewChar: true})
-    }
 
     onError = () => { 
         this.setState({error: true , load: false})
@@ -60,16 +54,17 @@ class CharList extends Component {
     render () {
 
         const { onCharSelected } = this.props; 
-        const {ArrayChars , offset , loadNewChar , error , load} = this.state;
+        const {ArrayChars , loadNewChar , error , load , offset} = this.state;
 
-        const erorTag =  (error || !load || !ArrayChars ) ? <ErrorTag/> : null; 
+        const errorTag =  error ? <ErrorTag/> : null; 
 
-        const contentChars = !( error || load || !ArrayChars) ? <Views ArrayChars = {ArrayChars} offset = {offset} onRequstListChar = {this.onRequsetListChar} onCharSelected = {onCharSelected}/> : null;
+        const contentChars = !( error || load || !ArrayChars) ? <Views ArrayChars = {ArrayChars}  onCharSelected = {onCharSelected}/> : null;
 
         const loading = !(error || !load || ArrayChars.length !== 0) ? <SpinnerLoad/> : null; 
 
+        const styleBtnLoadNewChars = offset < 1565 ? (loadNewChar ? { opacity: 0.5 } : null) : {display: `none`}; 
 
-
+        
 
 
         // let li = Array.from(ArrayChars).map(({id , ...charDat})=> {
@@ -84,8 +79,9 @@ class CharList extends Component {
                 {li}
             </ul> */}
             {loading}
+            {errorTag}
             {contentChars}
-            <button className="button button__main button__long" onClick={()=> (this.onRequstListChar(offset))}>
+            <button disabled={loadNewChar} style = {styleBtnLoadNewChars} className="button button__main button__long" onClick={()=> (this.onRequstListChar(offset))}>
                 <div className="inner">load more</div>
             </button>
         </div>
@@ -95,7 +91,7 @@ class CharList extends Component {
 
 export default CharList;
 
-const Views = ({ArrayChars , offset  , onRequstListChar , onCharSelected}) => { 
+const Views = ({ArrayChars , onCharSelected}) => { 
     
     let li = Array.from(ArrayChars).map(({id , ...charDat})=> {
         return (

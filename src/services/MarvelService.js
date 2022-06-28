@@ -14,7 +14,7 @@ class MarvelService {
       // let data = await res.json()
       // return data
    }
-   getAllCharacters = async (offset = 260)=>{ 
+   getAllCharacters = async (offset = this._offset)=>{ 
       let res = await this.getResourse(`https://gateway.marvel.com:443/v1/public/characters?limit=9&offset=${offset}&apikey=27c482231617c13cab6f9222965acb80`);
       
 
