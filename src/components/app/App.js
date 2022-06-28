@@ -7,8 +7,8 @@ import decoration from '../../resources/img/vision.png';
 import { Component } from "react";
 
 
+///wht people don't used extend from them components , answer is simple , becouse in react we have all from easy use composition ( remake or add  components by using props ) почему не используют наследования а вместо него исопьзуется композиция , нам леге переделать объект добавии в него некоторые дополнительные пропсы или элементы для его специализации вместо того чтобы использовать наследование 
 
-import ReactTestChildren from "../reactTestChilden/ReactTestChildren";
 
 
 class App extends Component {
@@ -27,19 +27,6 @@ class App extends Component {
     const {selectedChar} = this.state
     return (
         <div className="app">
-
-
-            <ReactTestChildren left = {<div><p>Kak tvoi dela</p></div>}
-                               right= {<div><p>Normal`no tvoi kak</p></div>}> 
-                               <div>
-                                <p>Kak tvoi dela</p>
-                               </div>
-                                <div>
-                                <p>Normalno</p>
-                               </div>
-            </ReactTestChildren>
-
-
             <AppHeader/>
             <main>
                 <ErrorBoundaries>
