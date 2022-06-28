@@ -3,7 +3,7 @@ import { Component } from 'react/cjs/react.production.min';
 import MarvelService from '../../services/MarvelService';
 import ErrorTag from '../errorTag/ErrorTag';
 import SpinnerLoad from '../spinnerLoad/SpinnerLoad';
-
+import PropTypes from 'prop-types';
 
 class CharList extends Component {
 
@@ -25,10 +25,6 @@ class CharList extends Component {
             offset: offset + 9 
         }))
     }
-
-    // updateArrayChars = ()=>{ 
-    //    this.onRequstListChar(this.state.offset)
-    // }
 
     componentDidMount() { 
         this.onRequstListChar();
@@ -66,18 +62,8 @@ class CharList extends Component {
 
         
 
-
-        // let li = Array.from(ArrayChars).map(({id , ...charDat})=> {
-        //     return (
-        //     <CharItem key={id} {...charDat} onCharSelected = {()=>{onCharSelected(id)}}/>
-        //     )
-        // })
-
         return (
         <div className="char__list">
-            {/* <ul className="char__grid">
-                {li}
-            </ul> */}
             {loading}
             {errorTag}
             {contentChars}
@@ -88,6 +74,12 @@ class CharList extends Component {
     )
     }
 }
+
+CharList.propTypes = { 
+    onCharSelected: PropTypes.func.isRequired
+}
+
+
 
 export default CharList;
 

@@ -1,5 +1,5 @@
 import { Component } from 'react';
-
+import PropTypes from 'prop-types';
 import MarvelService from '../../services/MarvelService';
 import SpinnerLoad from '../spinnerLoad/SpinnerLoad';
 import ErrorTag from '../errorTag/ErrorTag';
@@ -19,22 +19,8 @@ class CharInfo extends Component {
         this.updateChar()
     }
 
-    ///get Derived state from error  запомнить
-    // static getDerivedStateFromError() { 
-    //     return { 
-    //         error: true
-    //     }
-    // }
-    //тут не  работает как и componentDidCatch, только в старых реактах , в новых надо класть эти методы в предохранителе
 
     componentDidUpdate(prevProps){ 
-
-
-        /*-------------Error Boundaries (предохранители от ошибок) they catch three types of errors 1: if constructor has been error 2: render : life cycle-------------------*/ 
-        //we try with error likes 3 types 
-
-        
-        // this.asdasd.asd()       //this is error
 
         if (this.props.charId !== prevProps.charId) { 
             this.updateChar()
@@ -88,10 +74,18 @@ class CharInfo extends Component {
         </div>
     )
     }
-
-
-
 }
+
+
+CharInfo.defaultProps = { 
+    defaultProp: `любой пропс можно так задать по дефолту`
+}
+
+CharInfo.propTypes = {
+    charId: PropTypes.number
+}
+
+
 
 
 const View = ({char})=>{ 
