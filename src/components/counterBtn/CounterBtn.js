@@ -27,9 +27,9 @@ class Counter extends Component {
 }
 
 
-const Message = ({counter})=>{ 
+const Message = ({counter , color})=>{ 
    return ( 
-      <p>Text number {counter}</p>
+      <p style={{colod: color}}>Text number {counter}</p>
    )
 }
 
