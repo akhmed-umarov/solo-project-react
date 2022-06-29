@@ -27,12 +27,6 @@ class App extends Component {
         <div className="app">
             <AppHeader/>
             <main>
-
-                <ReactTest>
-                    <p>Hello world!</p>
-                    <p>My name Akhmed!</p>
-                </ReactTest>
-
                 <ErrorBoundaries>
                 <RandomChar/>
                 </ErrorBoundaries>
