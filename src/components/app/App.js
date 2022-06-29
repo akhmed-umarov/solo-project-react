@@ -5,8 +5,6 @@ import CharInfo from "../charInfo/CharInfo";
 import ErrorBoundaries from "../errorBoundaries/ErrorBoundaries";
 import decoration from '../../resources/img/vision.png';
 import { Component } from "react";
-import Counter from "../counterBtn/CounterBtn";
-import { Message as Message} from "../counterBtn/CounterBtn";
 
 
 class App extends Component {
@@ -27,8 +25,6 @@ class App extends Component {
         <div className="app">
             <AppHeader/>
             <main>
-                <Counter render={(counter)=>(<Message counter={counter}/>)}/>
-
                 <ErrorBoundaries>
                 <RandomChar/>
                 </ErrorBoundaries>
