@@ -6,7 +6,7 @@ import ErrorBoundaries from "../errorBoundaries/ErrorBoundaries";
 import decoration from '../../resources/img/vision.png';
 import { Component } from "react";
 import Counter from "../counterBtn/CounterBtn";
-import { Message } from "../counterBtn/CounterBtn";
+import { Message as Message} from "../counterBtn/CounterBtn";
 
 
 class App extends Component {
@@ -47,38 +47,5 @@ class App extends Component {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const App = () => {
-
-    
-    
-//     return (
-//         <div className="app">
-//             <AppHeader/>
-//             <main>
-//                 <RandomChar/>
-//                 <div className="char__content">
-//                     <CharList/>
-//                     <CharInfo/>
-//                 </div>
-//                 <img className="bg-decoration" src={decoration} alt="vision"/>
-//             </main>
-//         </div>
-//     )
-// }
 
 export default App;

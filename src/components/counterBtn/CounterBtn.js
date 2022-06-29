@@ -1,5 +1,5 @@
 import { Component } from "react";
-
+import PropType from "prop-types";
 
 
 class Counter extends Component { 
@@ -16,7 +16,7 @@ class Counter extends Component {
 
 
    render() { 
-      const {counter } = this.state
+      const { counter } = this.state
       return ( 
          <div>
             <button onClick={this.counterPlus}>Click mi</button>
@@ -33,6 +33,14 @@ const Message = ({counter})=>{
    )
 }
 
+Message.propType = { 
+   counter: PropType.number
+}
+
+Message.defaultProps = { 
+   counter: 0, 
+   color: `red`
+}
 
 export {Message}; 
 export default Counter;
