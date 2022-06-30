@@ -1,5 +1,6 @@
 import './charList.scss';
 import { Component } from 'react/cjs/react.production.min';
+import React from 'react';
 import MarvelService from '../../services/MarvelService';
 import ErrorTag from '../errorTag/ErrorTag';
 import SpinnerLoad from '../spinnerLoad/SpinnerLoad';
@@ -47,14 +48,16 @@ class CharList extends Component {
         this.setState({loadNewChar: true})
     }
 
+
+
     render () {
 
         const { onCharSelected } = this.props; 
-        const {ArrayChars , loadNewChar , error , load , offset} = this.state;
+        const {ArrayChars , loadNewChar , error , load , offset } = this.state;
 
         const errorTag =  error ? <ErrorTag/> : null; 
 
-        const contentChars = !( error || load || !ArrayChars) ? <Views ArrayChars = {ArrayChars}  onCharSelected = {onCharSelected}/> : null;
+        const contentChars = !( error || load || !ArrayChars) ? <Views ArrayChars = {ArrayChars}  onCharSelected = {onCharSelected} /> : null;
 
         const loading = !(error || !load || ArrayChars.length !== 0) ? <SpinnerLoad/> : null; 
 
@@ -83,33 +86,52 @@ CharList.propTypes = {
 
 export default CharList;
 
-const Views = ({ArrayChars , onCharSelected}) => { 
-    
-    let li = Array.from(ArrayChars).map(({id , ...charDat})=> {
+
+class Views extends Component { 
+    ArrayRef = [];
+
+
+    createRef = (ref)=>{ 
+        this.ArrayRef.push(ref)
+    }
+
+    onFocus = (id)=>{ 
+        this.ArrayRef.forEach(el=>{ 
+            el.classList.remove("char__item__active")
+        })
+        this.ArrayRef[id].classList.add("char__item__active");
+        this.ArrayRef[id].focus()
+    }
+
+
+    render() { 
+        const {ArrayChars , onCharSelected } = this.props; 
+
+
+        let li = Array.from(ArrayChars).map(({id , name , thumbnail } , indexChar )=> {
+
+            const styleImg = (thumbnail.path === `http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available`) ? { objectFit: `contain` } : null;
+            return (
+            <li className="char__item" 
+            onClick={()=>{
+                onCharSelected(id) ;
+                this.onFocus(indexChar) ;
+                        }}
+             ref = {this.createRef} key={id}>
+            <img style={styleImg} src={`${thumbnail.path}.${thumbnail.extension}`} alt={name}/>
+            <div className="char__name">{name}</div>
+            </li>
+            )
+        })
+
         return (
-        <CharItem key={id} {...charDat} onCharSelected = {()=>{onCharSelected(id)}}/>
-        )
-    })
-    return ( 
-        <>
+            <>
             <ul className="char__grid">
                 {li}
             </ul>
         </>
-    )
+        )
+    }
 }
 
 
-
-
-const CharItem = ({name , thumbnail , onCharSelected})=>{ 
-
-    const styleImg = (thumbnail.path === `http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available`) ? { objectFit: `contain` } : null;
-
-    return (
-        <li className="char__item" onClick={onCharSelected}>
-        <img style={styleImg} src={`${thumbnail.path}.${thumbnail.extension}`} alt={name}/>
-        <div className="char__name">{name}</div>
-        </li>
-    )
-}

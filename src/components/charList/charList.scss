@@ -1,6 +1,7 @@
 @import '../../style/variables.scss';
 
 .char {
+
     &__content {
         margin-top: 50px;
         display: grid;
@@ -32,6 +33,12 @@
             box-shadow: 0 5px 20px $main-color;
             transform: translateY(-8px);
         }
+
+
+        &__active { 
+            background: red;
+        }
+    
     }
     &__name {
         font-weight: bold;
