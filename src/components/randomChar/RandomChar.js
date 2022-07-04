@@ -28,7 +28,7 @@ const RandomChar =()=>{
         setLoad(true)
     }
 
-    let updateChar = () =>{  
+    let updateChar = () =>{   
         const randId = Math.floor((Math.random() * 400) + 1011000)
         onCharChange()
         marvelService
