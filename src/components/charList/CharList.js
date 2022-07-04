@@ -1,6 +1,6 @@
 import './charList.scss';
 // import { useState } from 'react/cjs/react.production.min';
-import React, { useEffect, useState  , Component} from 'react';
+import React, { useEffect, useState  ,  useRef} from 'react';
 import MarvelService from '../../services/MarvelService';
 import ErrorTag from '../errorTag/ErrorTag';
 import SpinnerLoad from '../spinnerLoad/SpinnerLoad';
@@ -76,55 +76,47 @@ CharList.propTypes = {
 export default CharList;
 
 
-class Views extends Component { 
-    ArrayRef = [];
 
+const Views = ({ArrayChars , onCharSelected})=> {
+    let ArrayRef = useRef([]);
 
-    createRef = (ref)=>{ 
-        this.ArrayRef.push(ref)
-    }
-
-    onFocus = (id)=>{ 
-        this.ArrayRef.forEach(el=>{ 
+    let onFocus = (id)=>{ 
+        ArrayRef.current.forEach(el=>{ 
             el.classList.remove("char__item__active")
         })
-        this.ArrayRef[id].classList.add("char__item__active");
-        this.ArrayRef[id].focus()
+            ArrayRef.current[id].classList.add("char__item__active")
+            ArrayRef.current[id].focus()
     }
 
-
-    render() { 
-        const {ArrayChars , onCharSelected } = this.props; 
-
-
-        let li = Array.from(ArrayChars).map(({id , name , thumbnail } , indexChar )=> {
-
-            const styleImg = (thumbnail.path === `http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available`) ? { objectFit: `contain` } : null;
-            return (
-            <li className="char__item" 
-            onClick={()=>{
-                onCharSelected(id) ;
-                this.onFocus(indexChar) ;
-                        }}
-             tabIndex={0}
-             onKeyDown = {(e)=>{if (e.key === "Enter") { 
-                this.onFocus(indexChar)
-             }}}
-             ref = {this.createRef} key={id}>
-            <img style={styleImg} src={`${thumbnail.path}.${thumbnail.extension}`} alt={name}/>
-            <div className="char__name">{name}</div>
-            </li>
-            )
-        })
-
+    let li = Array.from(ArrayChars).map(({id , name , thumbnail } , indexChar )=>{
+        const styleImg = (thumbnail.path === `http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available`) ? { objectFit: `contain` } : null;
         return (
-            <>
-            <ul className="char__grid">
-                {li}
-            </ul>
-        </>
+        <li className="char__item" 
+        onClick={()=>{
+            onCharSelected(id) ;
+            onFocus(indexChar) ;
+                    }}
+         tabIndex={0}
+         onKeyDown = {(e)=>{if (e.key === "Enter") { 
+            onFocus(indexChar)
+         }}}
+         ref = {(event)=>{ ArrayRef.current[indexChar]=event }} 
+         key={id}>
+        <img style={styleImg} src={`${thumbnail.path}.${thumbnail.extension}`} alt={name}/>
+        <div className="char__name">{name}</div>
+        </li>
         )
-    }
+
+    })
+    return (
+        <>
+        <ul className="char__grid">
+            {li}
+        </ul>
+        </>
+    )
 }
+
+
 
 
