@@ -1,88 +1,77 @@
 import './charList.scss';
-import { Component } from 'react/cjs/react.production.min';
-import React from 'react';
+// import { useState } from 'react/cjs/react.production.min';
+import React, { useEffect, useState  , Component} from 'react';
 import MarvelService from '../../services/MarvelService';
 import ErrorTag from '../errorTag/ErrorTag';
 import SpinnerLoad from '../spinnerLoad/SpinnerLoad';
 import PropTypes from 'prop-types';
 
-class CharList extends Component {
 
-        state = {
-            ArrayChars: [],
-            load: true, 
-            error: false, 
-            loadNewChar: false,
-            offset: 260
+
+const CharList = ({ onCharSelected } ) => { 
+
+    const [ArrayChars, setArrayChars] = useState([]); 
+    const [load , setLoad] = useState(true);
+    const [error , setError] = useState(false);
+    const [loadNewChar , setLoadNewChar ] = useState(false);
+    const [offset , setOffset] = useState(260);
+
+    const marvelService = new MarvelService(); 
+
+    const loadedAllChars = (newChars)=>{ 
+        setArrayChars(()=>[...newChars , ...ArrayChars]);
+        setLoad(false);
+        setLoadNewChar(false)
+        setOffset(()=>(offset + 9))
+    }
+    useEffect(()=>{ 
+    onRequstListChar()
+    } , []);
+
+    let onRequstListChar = (offset)=>{
+        onLoadingNewCharsArray();
+            marvelService
+                .getAllCharacters(offset)
+                    .then(loadedAllChars)
+                    .catch(onError)
     }
 
-    marvelService = new MarvelService(); 
-
-    loadedAllChars = (newChars)=>{ 
-        this.setState(({ArrayChars , offset})=>({
-            ArrayChars : [...ArrayChars , ...newChars], 
-            load: false , 
-            loadNewChar: false, 
-            offset: offset + 9 
-        }))
+    function onError () { 
+        setError(true)
+        setLoad(false)
     }
-
-    componentDidMount() { 
-        this.onRequstListChar();
-    }
-    
-    onRequstListChar = (offset) =>{ 
-        this.onLoadingNewCharsArray();
-        this.marvelService
-            .getAllCharacters(offset)
-                 .then(this.loadedAllChars)
-                 .catch(this.onError)
-    }
-
-
-    onError = () => { 
-        this.setState({error: true , load: false})
-    }
-
-    onLoadingNewCharsArray = () =>{ 
-        this.setState({loadNewChar: true})
+    function onLoadingNewCharsArray () { 
+        setLoadNewChar(true)
     }
 
 
+    // const { onCharSelected } = props; 
 
-    render () {
+    const errorTag =  error ? <ErrorTag/> : null; 
 
-        const { onCharSelected } = this.props; 
-        const {ArrayChars , loadNewChar , error , load , offset } = this.state;
+    const contentChars = !( error || load || !ArrayChars) ? <Views ArrayChars = {ArrayChars}  onCharSelected = {onCharSelected} /> : null;
 
-        const errorTag =  error ? <ErrorTag/> : null; 
+    const loading = !(error || !load || ArrayChars.length !== 0) ? <SpinnerLoad/> : null; 
 
-        const contentChars = !( error || load || !ArrayChars) ? <Views ArrayChars = {ArrayChars}  onCharSelected = {onCharSelected} /> : null;
+    const styleBtnLoadNewChars = offset < 1565 ? (loadNewChar ? { opacity: 0.5 } : null) : {display: `none`}; 
 
-        const loading = !(error || !load || ArrayChars.length !== 0) ? <SpinnerLoad/> : null; 
 
-        const styleBtnLoadNewChars = offset < 1565 ? (loadNewChar ? { opacity: 0.5 } : null) : {display: `none`}; 
-
-        
-
-        return (
+    return ( 
         <div className="char__list">
-            {loading}
-            {errorTag}
-            {contentChars}
-            <button disabled={loadNewChar} style = {styleBtnLoadNewChars} className="button button__main button__long" onClick={()=> (this.onRequstListChar(offset))}>
-                <div className="inner">load more</div>
-            </button>
-        </div>
+        {loading}
+        {errorTag}
+        {contentChars}
+        <button disabled={loadNewChar} style = {styleBtnLoadNewChars} className="button button__main button__long" onClick={()=> (this.onRequstListChar(offset))}>
+            <div className="inner">load more</div>
+        </button>
+         </div>
     )
-    }
+
 }
 
 CharList.propTypes = { 
     onCharSelected: PropTypes.func.isRequired
 }
-
-
 
 export default CharList;
 
@@ -117,6 +106,10 @@ class Views extends Component {
                 onCharSelected(id) ;
                 this.onFocus(indexChar) ;
                         }}
+             tabIndex={0}
+             onKeyDown = {(e)=>{if (e.key === "Enter") { 
+                this.onFocus(indexChar)
+             }}}
              ref = {this.createRef} key={id}>
             <img style={styleImg} src={`${thumbnail.path}.${thumbnail.extension}`} alt={name}/>
             <div className="char__name">{name}</div>

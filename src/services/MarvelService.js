@@ -11,6 +11,7 @@ class MarvelService {
          throw new Error (`Coult nod fetch ${url}, status: ${res.status}`)
       }
       return await res.json()
+
       // let data = await res.json()
       // return data
    }
