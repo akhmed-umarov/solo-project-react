@@ -1,7 +1,7 @@
 import './charList.scss';
 // import { useState } from 'react/cjs/react.production.min';
 import React, { useEffect, useState  ,  useRef} from 'react';
-import MarvelService from '../../services/MarvelService';
+import useMarvelService from '../../services/MarvelService';
 import ErrorTag from '../errorTag/ErrorTag';
 import SpinnerLoad from '../spinnerLoad/SpinnerLoad';
 import PropTypes from 'prop-types';
@@ -16,7 +16,7 @@ const CharList = ({ onCharSelected } ) => {
     const [loadNewChar , setLoadNewChar ] = useState(false);
     const [offset , setOffset] = useState(260);
 
-    const marvelService = new MarvelService(); 
+    const marvelService = useMarvelService(); 
 
     const loadedAllChars = (newChars)=>{ 
         setArrayChars(()=>[...newChars , ...ArrayChars]);
@@ -28,7 +28,7 @@ const CharList = ({ onCharSelected } ) => {
     onRequstListChar()
     } , []);
 
-    let onRequstListChar = (offset)=>{
+    const onRequstListChar = (offset)=>{
         onLoadingNewCharsArray();
             marvelService
                 .getAllCharacters(offset)
@@ -61,7 +61,7 @@ const CharList = ({ onCharSelected } ) => {
         {loading}
         {errorTag}
         {contentChars}
-        <button disabled={loadNewChar} style = {styleBtnLoadNewChars} className="button button__main button__long" onClick={()=> (this.onRequstListChar(offset))}>
+        <button disabled={loadNewChar} style = {styleBtnLoadNewChars} className="button button__main button__long" onClick={()=> (onRequstListChar(offset))}>
             <div className="inner">load more</div>
         </button>
          </div>

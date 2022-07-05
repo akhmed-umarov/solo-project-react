@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import MarvelService from '../../services/MarvelService';
+import useMarvelService from '../../services/MarvelService';
 import SpinnerLoad from '../spinnerLoad/SpinnerLoad';
 import ErrorTag from '../errorTag/ErrorTag';
 import Skeleton from '../skeleton/Skeleton';
@@ -13,7 +13,6 @@ class CharInfo extends Component {
         error: false
     }
 
-    marvelService = new MarvelService(); 
 
     componentDidMount(){ 
         this.updateChar()
