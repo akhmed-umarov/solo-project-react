@@ -1,5 +1,4 @@
 import './charList.scss';
-// import { useState } from 'react/cjs/react.production.min';
 import React, { useEffect, useState  ,  useRef} from 'react';
 import useMarvelService from '../../services/MarvelService';
 import ErrorTag from '../errorTag/ErrorTag';
@@ -11,48 +10,29 @@ import PropTypes from 'prop-types';
 const CharList = ({ onCharSelected } ) => { 
 
     const [ArrayChars, setArrayChars] = useState([]); 
-    const [load , setLoad] = useState(true);
-    const [error , setError] = useState(false);
     const [loadNewChar , setLoadNewChar ] = useState(false);
     const [offset , setOffset] = useState(260);
+    const {load , error , getAllCharacters} = useMarvelService(); 
 
-    const marvelService = useMarvelService(); 
 
     const loadedAllChars = (newChars)=>{ 
-        setArrayChars(()=>[...newChars , ...ArrayChars]);
-        setLoad(false);
-        setLoadNewChar(false)
-        setOffset(()=>(offset + 9))
+        setArrayChars(()=>[...ArrayChars, ...newChars ]);
+            setLoadNewChar(false)
+                setOffset(()=>(offset + 9))
     }
+
     useEffect(()=>{ 
-    onRequstListChar()
-    } , []);
+        onRequstListChar(offset , false)
+    } , [])
 
-    const onRequstListChar = (offset)=>{
-        onLoadingNewCharsArray();
-            marvelService
-                .getAllCharacters(offset)
+    const onRequstListChar = (offset , initial)=>{
+        initial ? setLoadNewChar(true) : setLoadNewChar(false)
+                getAllCharacters(offset)
                     .then(loadedAllChars)
-                    .catch(onError)
     }
-
-    function onError () { 
-        setError(true)
-        setLoad(false)
-    }
-    function onLoadingNewCharsArray () { 
-        setLoadNewChar(true)
-    }
-
-
-    // const { onCharSelected } = props; 
 
     const errorTag =  error ? <ErrorTag/> : null; 
-
-    const contentChars = !( error || load || !ArrayChars) ? <Views ArrayChars = {ArrayChars}  onCharSelected = {onCharSelected} /> : null;
-
-    const loading = !(error || !load || ArrayChars.length !== 0) ? <SpinnerLoad/> : null; 
-
+    const loading = !(error || !load && !loadNewChar || ArrayChars.length !== 0) ? <SpinnerLoad/> : null; 
     const styleBtnLoadNewChars = offset < 1565 ? (loadNewChar ? { opacity: 0.5 } : null) : {display: `none`}; 
 
 
@@ -60,7 +40,7 @@ const CharList = ({ onCharSelected } ) => {
         <div className="char__list">
         {loading}
         {errorTag}
-        {contentChars}
+        <Views ArrayChars = {ArrayChars}  onCharSelected = {onCharSelected} />
         <button disabled={loadNewChar} style = {styleBtnLoadNewChars} className="button button__main button__long" onClick={()=> (onRequstListChar(offset))}>
             <div className="inner">load more</div>
         </button>

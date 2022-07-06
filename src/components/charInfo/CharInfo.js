@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { Component, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import useMarvelService from '../../services/MarvelService';
 import SpinnerLoad from '../spinnerLoad/SpinnerLoad';
@@ -6,65 +6,29 @@ import ErrorTag from '../errorTag/ErrorTag';
 import Skeleton from '../skeleton/Skeleton';
 import './charInfo.scss';
 
-class CharInfo extends Component { 
-    state = {
-        char: null,
-        load: false,
-        error: false
-    }
 
+const CharInfo = ({charId})=>{ 
+    const [char , setChar] = useState(null)
+    const {load , error , getCharacter } = useMarvelService();  
+    useEffect(()=>{ 
+        updateChar()
+    }, [])
+    useEffect(()=>{
+        updateChar()
+    } , [charId])
 
-    componentDidMount(){ 
-        this.updateChar()
-    }
-
-
-    componentDidUpdate(prevProps){ 
-
-        if (this.props.charId !== prevProps.charId) { 
-            this.updateChar()
-        }
-    }
-
-
-    updateChar = () =>{ 
-        const {charId} = this.props; 
+    let updateChar = () =>{ 
         if (!charId) { 
             return;
         }
-        this.onCharChange()
-        this.marvelService 
-            .getCharacter(charId)
-                .then(this.onCharLoader)
-                .catch(this.onError)
+            getCharacter(charId)
+                .then(char=> setChar(char))
     }
-
-    onCharLoader = (char) =>{ 
-        this.setState({char , load: false})
-    }
-
-    onError = () => { 
-        this.setState({error: true , load: false})
-    }
-
-    onCharChange = ()=>{ 
-        this.setState({
-            load: true
-        })
-    }
-
-
-    render(){ 
-        const {char , load , error} = this.state;
-
-        const SkeletPage = char || load || error ?  null : <Skeleton/>; 
-        const LoadedPage = load ? <SpinnerLoad/> : null ; 
-        const ErrorPage = error ? <ErrorTag /> : null; 
-        const charPage = !(error || load || !char) ? <View char={char}/> : null ; 
-
-
-
-        return (
+    const SkeletPage = char || load || error ?  null : <Skeleton/>; 
+    const LoadedPage = load ? <SpinnerLoad/> : null ; 
+    const ErrorPage = error ? <ErrorTag /> : null; 
+    const charPage = !(error || load || !char) ? <View char={char}/> : null ; 
+    return (
         <div className="char__info">
             {SkeletPage}
             {LoadedPage}
@@ -72,8 +36,79 @@ class CharInfo extends Component {
             {charPage}
         </div>
     )
-    }
 }
+
+
+// class CharInfo extends Component { 
+
+
+//     state = {
+//         char: null,
+//         load: false,
+//         error: false
+//     }
+
+
+//     componentDidMount(){ 
+//         this.updateChar()
+//     }
+
+
+//     componentDidUpdate(prevProps){ 
+
+//         if (this.props.charId !== prevProps.charId) { 
+//             this.updateChar()
+//         }
+//     }
+
+
+//     updateChar = () =>{ 
+//         const {charId} = this.props; 
+//         if (!charId) { 
+//             return;
+//         }
+//         this.onCharChange()
+//         this.marvelService 
+//             .getCharacter(charId)
+//                 .then(this.onCharLoader)
+//                 .catch(this.onError)
+//     }
+
+//     onCharLoader = (char) =>{ 
+//         this.setState({char , load: false})
+//     }
+
+//     onError = () => { 
+//         this.setState({error: true , load: false})
+//     }
+
+//     onCharChange = ()=>{ 
+//         this.setState({
+//             load: true
+//         })
+//     }
+
+
+//     render(){ 
+//         const {char , load , error} = this.state;
+
+//         const SkeletPage = char || load || error ?  null : <Skeleton/>; 
+//         const LoadedPage = load ? <SpinnerLoad/> : null ; 
+//         const ErrorPage = error ? <ErrorTag /> : null; 
+//         const charPage = !(error || load || !char) ? <View char={char}/> : null ; 
+
+
+
+//         return (
+//         <div className="char__info">
+//             {SkeletPage}
+//             {LoadedPage}
+//             {ErrorPage}
+//             {charPage}
+//         </div>
+//     )
+//     }
+// }
 
 
 CharInfo.defaultProps = { 

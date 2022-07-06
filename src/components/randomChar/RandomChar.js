@@ -9,7 +9,7 @@ import ErrorTag from '../errorTag/ErrorTag';
 
 
 const RandomChar =()=>{ 
-    const {load , error , getCharacter} =  useMarvelService(); 
+    const {load , error , getCharacter , clearError} =  useMarvelService(); 
     const [char , setChar] = useState({}); 
     // const [load , setLoad] = useState(true);
     // const [error , setError] = useState(false);
@@ -29,6 +29,7 @@ const RandomChar =()=>{
     // }
 
     let updateChar = () =>{   
+        clearError();
         const randId = Math.floor((Math.random() * 400) + 1011000)
         // onCharChange()
         // marvelService
