@@ -1,7 +1,8 @@
 import AppHeader from "../appHeader/AppHeader";
-import { BrowserRouter as Router , Route , Switch} from "react-router-dom";
-import MainPage from "../pages/MainPage";
-import ComicsPage from "../pages/ComicsPage";
+import { BrowserRouter as Router , Route , Routes } from "react-router-dom";
+import {MainPage , ComicsPage , SingleComic } from '../pages'
+import ErrorTag from "../errorTag/ErrorTag";
+
 
 const App = ()=>{ 
 
@@ -11,14 +12,12 @@ const App = ()=>{
         <div className="app">
         <AppHeader/>
             <main>
-                <Switch>
-                     <Route exact path={'/'}>
-                           <MainPage/>
-                     </Route>
-                     <Route exact path={'/comics'}>
-                            <ComicsPage/>
-                     </Route>
-                </Switch>
+                <Routes>
+                     <Route path={'/'} element={<MainPage/>}/>
+                     <Route path={'comics'} element={<ComicsPage/>}/>
+                     <Route path={'/comics/:comicId'} element={<SingleComic/>}/>
+                     <Route path="*" element={<ErrorTag/>}/>
+                </Routes>
             </main>   
         </div>
         </Router>

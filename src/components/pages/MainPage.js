@@ -24,7 +24,8 @@ const MainPage = ()=>{
                     <CharInfo charId = {state}/>
                 </ErrorBoundaries>
        </div>
-<img className="bg-decoration" src={decoration} alt="vision"/>
+    <img className="bg-decoration" src={decoration} alt="vision"/>
+    
       </>
    )
 }

@@ -1,7 +1,7 @@
 import './appHeader.scss';
 import { Link , NavLink } from 'react-router-dom';
 
-const AppHeader = (props) => {
+const AppHeader = () => {
     return (
         <header className="app__header">
             <h1 className="app__title">
@@ -11,9 +11,11 @@ const AppHeader = (props) => {
             </h1>
             <nav className="app__menu">
                 <ul>
-                    <li><NavLink exact activeStyle={{color: 'red'}} to="/" >Characters</NavLink></li>
+                    <li><NavLink end 
+                    style={({isActive})=> isActive ? ({color: 'red'}) : null} to="/" >Characters</NavLink></li>
                     /
-                    <li><NavLink exact activeStyle={{color: 'red'}} to="/comics" >Comics</NavLink></li>
+                    <li><NavLink 
+                    style={({isActive})=> isActive ? ({color: 'red'}) : null} to="/comics" >Comics</NavLink></li>
                 </ul>
             </nav>
         </header>

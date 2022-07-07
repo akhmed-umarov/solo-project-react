@@ -3,6 +3,7 @@ import useMarvelService from '../../services/MarvelService';
 import SpinnerLoad from '../spinnerLoad/SpinnerLoad';
 import { useEffect  , useState } from 'react';
 import ErrorTag from '../errorTag/ErrorTag';
+import { Link } from 'react-router-dom';
 
 
 
@@ -31,11 +32,11 @@ const ComicsList = ()=> {
     
     const comicses = Array.from(ArrayComics).map(({title , prices , id , thumbnail : {extension , path }})=>(
         <li className="comics__item" key={id}>
-        <a href="#">
+        <Link to={`${id}`}>
             <img src={`${path}.${extension}`} alt={title} className="comics__item-img"/>
             <div className="comics__item-name">{title}</div>
             <div className="comics__item-price">{prices[0].price}</div>
-        </a>
+        </Link>
     </li>
     ))
         

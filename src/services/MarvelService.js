@@ -23,6 +23,11 @@ const useMarvelService =()=> {
      return res.data.results
    }
 
+   const getComic = async (id)=>{ 
+      let res = await request(`https://gateway.marvel.com:443/v1/public/comics/${id}?apikey=27c482231617c13cab6f9222965acb80`)
+      return _transformComics(res.data.results[0])
+   }
+
    const __transformCharacter = (char)=>{ 
       return { 
          name: char.name, 
@@ -33,9 +38,20 @@ const useMarvelService =()=> {
          comicsData: char.comics
       }}
 
+   const _transformComics = (comics) => {
+         return {
+             id: comics.id,
+             title: comics.title,
+             description: comics.description || 'There is no description',
+             pageCount: comics.pageCount ? `${comics.pageCount} p.` : 'No information about the number of pages',
+             thumbnail: comics.thumbnail.path + '.' + comics.thumbnail.extension,
+             language: comics.textObjects.language || 'en-us',
+             price: comics.prices[0].price ? `${comics.prices[0].price}$` : 'not available'
+         }
+   }
 
       
-      return {load , error, getAllCharacters , getCharacter , clearError , getAllComics}
+      return {load , error, getAllCharacters , getCharacter , clearError , getAllComics , getComic}
    }
 
 
