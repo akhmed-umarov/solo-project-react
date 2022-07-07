@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/akhmed-umarov/working-with-class-components.git/static/css/main.1a8d0c8f.chunk.css",
+    "main.js": "/akhmed-umarov/working-with-class-components.git/static/js/main.17671653.chunk.js",
+    "main.js.map": "/akhmed-umarov/working-with-class-components.git/static/js/main.17671653.chunk.js.map",
+    "runtime-main.js": "/akhmed-umarov/working-with-class-components.git/static/js/runtime-main.968c36ea.js",
+    "runtime-main.js.map": "/akhmed-umarov/working-with-class-components.git/static/js/runtime-main.968c36ea.js.map",
+    "static/js/2.5d0515d9.chunk.js": "/akhmed-umarov/working-with-class-components.git/static/js/2.5d0515d9.chunk.js",
+    "static/js/2.5d0515d9.chunk.js.map": "/akhmed-umarov/working-with-class-components.git/static/js/2.5d0515d9.chunk.js.map",
+    "index.html": "/akhmed-umarov/working-with-class-components.git/index.html",
+    "static/css/main.1a8d0c8f.chunk.css.map": "/akhmed-umarov/working-with-class-components.git/static/css/main.1a8d0c8f.chunk.css.map",
+    "static/js/2.5d0515d9.chunk.js.LICENSE.txt": "/akhmed-umarov/working-with-class-components.git/static/js/2.5d0515d9.chunk.js.LICENSE.txt",
+    "static/media/mjolnir.61f31e18.png": "/akhmed-umarov/working-with-class-components.git/static/media/mjolnir.61f31e18.png",
+    "static/media/vision.067d4ae1.png": "/akhmed-umarov/working-with-class-components.git/static/media/vision.067d4ae1.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.968c36ea.js",
+    "static/js/2.5d0515d9.chunk.js",
+    "static/css/main.1a8d0c8f.chunk.css",
+    "static/js/main.17671653.chunk.js"
+  ]
+}
